@@ -1,12 +1,56 @@
-@top Program { expression }
+@top Program { AbcScores  }
 
 @skip { space | LineComment }
 
-expression {
-  Boolean |
-  String 
+AbcScores {
+  AbcScore*
+}
 
-  //Header Score 
+AbcScore {
+  AbcHeader
+  Key 
+  AbcBody
+}
+
+AbcHeader {
+  AbcHeaderElement*
+}
+
+AbcBody {
+  AbcBodyElement*
+}
+
+AbcHeaderElement  {
+  Composer |
+  Length |
+  Meter |
+  Notes |
+  Origin |
+  Part |
+  Tempo |
+  Source |
+  Title |
+  Redefine |
+  ReferenceNumber |
+  Transcription |
+  Instructions |
+  Book |
+  Discography |
+  File |
+  Title |
+  Redefine |
+  Rythm
+}
+
+AbcBodyElement {
+  Words |
+  Bar |
+  TermRepeat |
+  NoteRythm |
+  ChordsEnd |
+  ChordsStart |
+  AccidentalAndOctaves |
+  Voice
 }
 
 @tokens {
@@ -18,10 +62,13 @@ expression {
   Notes { 'N:' ($[_])* '\n'}
   Origin { 'O:' ($[_])* '\n'}
   Part { 'P:' ($[_])* '\n'}
-  Tempo { 'T:' ($[_])* '\n'}
+  Tempo { 'Q:' ($[_])* '\n'}
   Rythm { 'R:' ($[_])* '\n'}
   Source { 'S:' ($[_])* '\n'}
-  Title { 'S:' ($[_])* '\n'}
+  Book { 'B:' ($[_])* '\n'}
+  Discography { 'D:' ($[_])* '\n'}
+  File { 'F:' ($[_])* '\n'}
+  Title { 'T:' ($[_])* '\n'}
   Redefine { 'U:' ($[_])* '\n'}
   ReferenceNumber { 'X:' ($[0-9])* '\n'}
   Transcription { 'Z:' ($[0-9])* '\n'}
@@ -29,20 +76,15 @@ expression {
   Voice { 'V:' ($[_])* '\n'}
   Words { 'W|w:' ($[_])* '\n'}
   AccidentalAndOctaves  { "'^'|'='|'_'|','"}
-  Bar  { '|'}
-  Ties { '(' | ')'}
+  Bar  { '|' $[|:] }
+  TermRepeat { ':' '|' $[|]?}
   ChordsStart { '[' }
   ChordsEnd { ']' }
   NoteRythm { $[(a-gzA-GZ)] ($[,']?)* $[0-9]+ }
  
 
-  ScoreElement { $[a-zA-Z_\-0-4]+ }
 
-  String { '"' (!["\\] | "\\" _)* '"' }
-
-  Boolean { "#t" | "#f" }
-
-  LineComment { "%" ![%\n]* }
+  LineComment { "%" ![%] ![\n]* }
 
   space { $[ ]+ }
 
