@@ -1,26 +1,51 @@
-@top Program { expression* }
+@top Program { expression }
 
 @skip { space | LineComment }
 
 expression {
-  Identifier |
-  String |
   Boolean |
-  Application { "(" expression* ")" }
+  String 
+
+  //Header Score 
 }
 
 @tokens {
-  Identifier { $[a-zA-Z_\-0-9]+ }
+
+  Composer { 'C:' ($[_])* '\n'}
+  Key { 'K:' ($[_])* '\n'}
+  Length { 'L:' ($[_])* '\n'}
+  Meter { 'M:' ($[_])* '\n'}
+  Notes { 'N:' ($[_])* '\n'}
+  Origin { 'O:' ($[_])* '\n'}
+  Part { 'P:' ($[_])* '\n'}
+  Tempo { 'T:' ($[_])* '\n'}
+  Rythm { 'R:' ($[_])* '\n'}
+  Source { 'S:' ($[_])* '\n'}
+  Title { 'S:' ($[_])* '\n'}
+  Redefine { 'U:' ($[_])* '\n'}
+  ReferenceNumber { 'X:' ($[0-9])* '\n'}
+  Transcription { 'Z:' ($[0-9])* '\n'}
+  Instructions { '%%' ($[_])* '\n'}
+  Voice { 'V:' ($[_])* '\n'}
+  Words { 'W|w:' ($[_])* '\n'}
+  AccidentalAndOctaves  { "'^'|'='|'_'|','"}
+  Bar  { '|'}
+  Ties { '(' | ')'}
+  ChordsStart { '[' }
+  ChordsEnd { ']' }
+  NoteRythm { $[(a-gzA-GZ)] ($[,']?)* $[0-9]+ }
+ 
+
+  ScoreElement { $[a-zA-Z_\-0-4]+ }
 
   String { '"' (!["\\] | "\\" _)* '"' }
 
   Boolean { "#t" | "#f" }
 
-  LineComment { ";" ![\n]* }
+  LineComment { "%" ![%\n]* }
 
-  space { $[ \t\n\r]+ }
+  space { $[ ]+ }
 
-  "(" ")"
 }
 
 @detectDelim
