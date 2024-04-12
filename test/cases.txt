@@ -1,0 +1,7 @@
+# Line Comments
+
+% this is a comment
+
+==>
+
+Program(AbcScores,LineComment)
