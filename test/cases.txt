@@ -1,7 +1,17 @@
-# Line Comments
+#  Line Comments { "strict" : false }
 
 % this is a comment
 
 ==>
 
-Program(AbcScores,LineComment)
+AbcMusic(AbcScores,LineComment)
+
+# Key tag test { "strict" : false }
+
+T:Title 
+K:G 
+W: those are words
+A2
+==>
+
+AbcMusic(AbcScores)

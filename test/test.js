@@ -6,6 +6,7 @@ import * as path from "path"
 import { fileURLToPath } from 'url';
 let caseDir = path.dirname(fileURLToPath(import.meta.url))
 
+
 for (let file of fs.readdirSync(caseDir)) {
   if (!/\.txt$/.test(file)) continue
 
@@ -13,8 +14,9 @@ for (let file of fs.readdirSync(caseDir)) {
   describe(name, () => {
     for (let {name, run} of fileTests(fs.readFileSync(path.join(caseDir, file), "utf8"), file)) 
       it(name, function () { 
-        console.log('nale :' + name)
-        run(AbcMusicLanguage.parser)
+        console.log('name :' + name)
+        let newParser = AbcMusicLanguage.parser.configure({strict:false})
+        run(newParser)
       })
   })
 }
