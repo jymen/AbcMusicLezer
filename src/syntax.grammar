@@ -2,38 +2,37 @@
 
 @skip { space | LineComment }
 
-
+@precedence { times @left }
 
 AbcScores {
-  AbcScore*
+  AbcScore* 
 }
 
 AbcScore {
   AbcHeaderElement*
-  Key
+  Key Informations
   AbcBodyElement*
 }
 
 AbcHeaderElement  {
-  Composer |
-  Length |
-  Meter |
-  Notes |
-  Origin |
-  Part |
-  Tempo |
-  Source |
-  Title |
-  Redefine |
+  Composer Informations |
+  Length Informations |
+  Meter Informations |
+  Notes Informations |
+  Origin Informations |
+  Part Informations |
+  Tempo Informations |
+  Source Informations |
+  Title Informations |
+  Redefine Informations |
   ReferenceNumber |
   Transcription |
   Instructions |
-  Book |
-  Discography |
-  File |
-  Title |
-  Redefine |
-  Rythm
+  Book Informations |
+  Discography Informations|
+  File Informations|
+  Title Informations |
+  Rythm Informations
 }
 
 AbcBodyElement {
@@ -49,33 +48,33 @@ AbcBodyElement {
 
 @tokens {
 
-  Composer { 'C' ':' ($[_])* '\n'}
-  Key { 'K:' ($[_])* '\n'}
-  Length { 'L:' ($[_])* '\n'}
-  Meter { 'M:' ($[_])* '\n'}
-  Notes { 'N:' ($[_])* '\n'}
-  Origin { 'O:' ($[_])* '\n'}
-  Part { 'P:' ($[_])* '\n'}
-  Tempo { 'Q:' ($[_])* '\n'}
-  Rythm { 'R:' ($[_])* '\n'}
-  Source { 'S:' ($[_])* '\n'}
-  Book { 'B:' ($[_])* '\n'}
-  Discography { 'D:' ($[_])* '\n'}
-  File { 'F:' ($[_])* '\n'}
-  Title { 'T:' ($[_])* '\n'}
-  Redefine { 'U:' ($[_])* '\n'}
+  Composer { 'C:'  }
+  Key { 'K:' }
+  Length { 'L:' }
+  Meter { 'M:' }
+  Notes { 'N:' }
+  Origin { 'O:' }
+  Part { 'P:' }
+  Tempo { 'Q:' }
+  Rythm { 'R:'  }
+  Source { 'S:' }
+  Book { 'B:' }
+  Discography { 'D:' }
+  File { 'F:' }
+  Title { 'T:'  }
+  Redefine { 'U:' }
   ReferenceNumber { 'X:' ($[0-9])* '\n'}
   Transcription { 'Z:' ($[0-9])* '\n'}
-  Instructions { '%%' ($[_])* '\n'}
+  Instructions { '%%' Informations}
   Voice { 'V:' ($[_])* '\n'}
-  Words { 'W|w:' ($[_])* '\n'}
+  Words { 'W|w:' Informations }
   AccidentalAndOctaves  { "'^'|'='|'_'|','"}
   Bar  { '|' $[|:] }
   TermRepeat { ':' '|' $[|]?}
   ChordsStart { '[' }
   ChordsEnd { ']' }
   NoteRythm { $[(a-gzA-GZ)] ($[,']?)* $[0-9]+ }
- 
+  Informations { ($[_])* '\n'} 
 
 
   LineComment { "%" ![%]* '\n' }
