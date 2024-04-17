@@ -1,5 +1,6 @@
-import {AbcMusicLanguage} from "../dist/index.js"
+import {AbcMusicLanguage,dumpTree } from "../dist/index.js"
 import {fileTests} from "@lezer/generator/dist/test"
+import {expect} from 'chai'
 
 import * as fs from "fs"
 import * as path from "path"
@@ -20,3 +21,65 @@ for (let file of fs.readdirSync(caseDir)) {
       })
   })
 }
+
+let minimal = `
+T:Title 
+K:G 
+W: those are words
+A2
+`
+let minimalist = `
+% this is a comment
+X:1
+K:G
+`
+
+let sampleSource = `
+% Default header template begins
+% can be changed in preferences
+%%vocalfont Bookman-Light 12
+%%historyfont Bookman-Light 10
+%%wordsfont Bookman-Light 14
+%%composerfont Bookman-Light 12
+%%titlefont Luminari 26
+% this is a new comment
+%
+%
+% ceci est un nouveau commentaire
+% Default header template ends 
+X: 1
+T: The Mist Covered Mountain
+R: jig
+M: 6/8
+L: 1/8
+K: Ador
+G|EAA ABd|e2 A AGE|~G3 GAB|dBA GED|
+EAA ABd|e2A AGE|efg dBG|BAG A2:|
+a|age a2b|age edB|AGE G2A|BAB GED|
+age a2b|age edB|AGE G2A|BAG A3|
+age a2b|age edB|AGE G2A|BAB GED|
+EDE G2A|BAG ABd|efg dBG|BAG A2||
+`
+const selected = minimalist
+describe("sampleAbcSource syntax tree test", () => {
+  it('should return 0', function() {
+    let newParser = AbcMusicLanguage.parser.configure({strict:false})
+    // let tree = newParser.parse(selected)
+    /*
+    let curCursor = tree.cursor()
+    let hasNext = true 
+    let topNode = tree.topNode
+    while ( hasNext ) {
+      console.log( curCursor.node.name )
+      hasNext = curCursor.hasNext
+      if ( hasNext ) {
+        curCursor = curCursor.next()
+      }
+    }
+    */
+    let output = dumpTree(selected)
+    console.log(output)
+    expect(0).to.equal(0)
+  })
+})
+

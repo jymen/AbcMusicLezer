@@ -27,6 +27,9 @@
   },
   "devDependencies": {
     "@lezer/generator": "^1.0.0",
+    "@types/chai": "^4.3.14",
+    "@types/mocha": "^10.0.6",
+    "chai": "^5.1.0",
     "mocha": "^9.0.1",
     "rollup": "^2.60.2",
     "rollup-plugin-dts": "^4.0.1",
@@ -36,6 +39,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/jymen/AbcMusicLezer.git"
-  },  
-  "license": "MIT"  
+  },
+  "license": "MIT"
 }

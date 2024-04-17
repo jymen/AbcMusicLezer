@@ -1,6 +1,7 @@
 import {parser} from "./syntax.grammar"
 import {LRLanguage, LanguageSupport, indentNodeProp, foldNodeProp, foldInside, delimitedIndent} from "@codemirror/language"
 import {styleTags, tags as t} from "@lezer/highlight"
+import {printTree } from './print-lezer-tree'
 
 export const AbcMusicLanguage = LRLanguage.define({
   parser: parser.configure({
@@ -49,6 +50,17 @@ export const AbcMusicLanguage = LRLanguage.define({
   }
 })
 
-export function AbcMusic() {
+export function abcMusic() {
   return new LanguageSupport(AbcMusicLanguage)
+}
+
+/**
+ * Dump produced tree grammar
+ */
+export function dumpTree( source : string ) {
+  let newParser = AbcMusicLanguage.parser.configure({strict:false})
+  let tree = newParser.parse(source)
+  let curCursor = tree.cursor()
+  console.log(curCursor.toString())
+  return printTree(tree,source)
 }

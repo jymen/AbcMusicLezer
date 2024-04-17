@@ -1,0 +1,35 @@
+#  Line Comments { "strict" : false }
+
+% this is a comment
+K:G
+
+==>
+
+AbcMusic(LineComment,AbcScores(AbcScore(Key)))
+
+# Key tag test { "strict" : false }
+
+T:Title 
+K:G 
+W: those are words
+A2
+
+==>
+
+AbcMusic(
+  AbcScores(
+    AbcScore(
+      AbcHeaderElement (
+        Title , Informations
+      )
+      Key,Informations,
+      AbcBody ( 
+        AbcBodyElement(
+          Words , informations 
+        )
+        AbcBodyElement(
+          NoteRythm
+        )
+      )
+    )
+  )
