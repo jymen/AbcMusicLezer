@@ -1,6 +1,6 @@
 @top AbcMusic { AbcScores  }
 
-@skip { LineComment }
+@skip { LineComment | Emptyline | eol }
 
 @precedence { AbcBody @left  }
 
@@ -11,14 +11,17 @@ AbcScores {
 
 AbcScore {
   ( Instruction Informations) * 
-  ReferenceNumber
+  ScoreReference 
   AbcHeaderElement*
   Key Informations
   AbcBody
 }
 
+ScoreReference {
+  ReferenceNumber Numbers 
+}
+
 AbcHeaderElement  {
-  Emptyline |
   Composer Informations |
   Length Informations |
   Meter Informations |
@@ -29,7 +32,7 @@ AbcHeaderElement  {
   Source Informations |
   Title Informations |
   Redefine Informations |
-  Transcription |
+  Transcription Numbers |
   Book Informations |
   Discography Informations|
   File Informations|
@@ -40,17 +43,29 @@ AbcHeaderElement  {
 
 AbcBody {
   AbcBodyElement*
+  SongsWords Informations
 }
 
-AbcBodyElement {
-  Words Informations |
+Chords {
+  ChordsStart Informations ChordsEnd
+}
+
+LineNotes {
   Bar |
   TermRepeat |
   NoteRythm |
-  ChordsEnd |
-  ChordsStart |
-  AccidentalAndOctaves |
+  AccidentalAndOctaves 
+}
+
+OtherLines {
+  LineWords Informations |
+  Chords |
   Voice Informations
+}
+
+AbcBodyElement {
+  LineNotes |
+  OtherLines
 }
 
 @external tokens externalHandler from "./token" {
@@ -77,23 +92,24 @@ AbcBodyElement {
   File { 'F:' }
   Title { 'T:'  }
   Redefine { 'U:' }
-  ReferenceNumber { 'X:' (@digit)* (eol | eof)}
-  Transcription { 'Z:' (@digit)* eol}
+  ReferenceNumber { 'X:'}
+  Numbers  { $[ ]* (@digit)+ }
+  Transcription { 'Z:' }
   Voice { 'V:' }
-  Words { 'W|w:'  }
+  LineWords { 'w:'  }
+  SongsWords { 'W:'  }
   AccidentalAndOctaves  { "'^'|'='|'_'|','"}
-  Bar  { '|' $[|:] }
+  Bar  { '|' $[|:]? }
   TermRepeat { ':' '|' $[|]?}
   ChordsStart { '[' }
   ChordsEnd { ']' }
-  NoteRythm { $[(a-gzA-GZ)] ($[,']?)* $[0-9]+ }
-  Informations { $[ '-',.?!;(a-z-A-Z0-9)]+ (eol | eof)} 
+  NoteRythm { $[ ~(a-gzA-GZ)] ($[,']?)* $[0-9]* }
+  Informations { $[ '-',.?!/;(a-z-A-Z0-9)]+ } 
 
 
   // LineComment { '%' $[_]*  (eol | eof)}
   // Instructions { '%%' Informations}
 
-  eof { @eof }
   eol { '\n'}
 
 

@@ -22,16 +22,22 @@ for (let file of fs.readdirSync(caseDir)) {
   })
 }
 
-let minimal = `
-T:Title 
-K:G 
-W: those are words
-A2
-`
 let minimalist = `
 % this is a comment
 X:1
 K:G
+`
+
+
+let minimal = `
+% comment
+X: 1
+T:Title 
+K:G 
+A2
+w: words in score 
+%
+W: those are words
 `
 
 let sampleSource = `
@@ -63,22 +69,9 @@ EDE G2A|BAG ABd|efg dBG|BAG A2||
 const selected = minimalist
 describe("sampleAbcSource syntax tree test", () => {
   it('should return 0', function() {
-    let newParser = AbcMusicLanguage.parser.configure({strict:false})
-    // let tree = newParser.parse(selected)
-    /*
-    let curCursor = tree.cursor()
-    let hasNext = true 
-    let topNode = tree.topNode
-    while ( hasNext ) {
-      console.log( curCursor.node.name )
-      hasNext = curCursor.hasNext
-      if ( hasNext ) {
-        curCursor = curCursor.next()
-      }
-    }
-    */
-    let output = dumpTree(selected)
-    console.log(output)
+    // Just get generated tree description
+    //let output = dumpTree(selected)
+    //console.log(output)
     expect(0).to.equal(0)
   })
 })

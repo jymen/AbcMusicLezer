@@ -6,5 +6,49 @@ K:G
 
 ==>
 
-AbcMusic(LineComment,AbcScores(AbcScore(ReferenceNumber,Key Informations,AbcBody)))
+AbcMusic(
+  LineComment,AbcScores(
+    AbcScore(
+      ScoreReference(
+        ReferenceNumber,Numbers
+      ),
+      Key, Informations
+      )))
 
+# Key tag test { "strict" : false }
+
+% comment
+X: 1
+T:Title 
+K:G 
+A2
+w: words in score 
+% comment
+W: those are words
+
+==>
+
+AbcMusic(
+  LineComment,
+  AbcScores(
+    AbcScore(
+      ScoreReference (
+        ReferenceNumber , Numbers
+      )
+      AbcHeaderElement (
+        Title , Informations
+      )
+      Key,Informations,
+      AbcBody ( 
+        AbcBodyElement(
+          LineNotes (
+            NoteRythm
+        ))
+        AbcBodyElement(
+          OtherLines (
+            LineWords , Informations
+          ))
+        LineComment , SongsWords , Informations
+      )
+    )
+  ))
